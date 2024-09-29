@@ -1,2 +1,84 @@
-<h1>Mi Portfolio</h1>
-<p> Modif Portfolio</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Enlace</title>
+</head>
+<body>
+    <form id="miFormulario">
+        <label for="url">Introduce una URL:</label>
+        <input type="url" id="url" required>
+        <button type="submit">Generar Enlace</button>
+    </form>
+
+    <div id="resultado"></div>
+
+    <script>
+        document.getElementById('miFormulario').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const url = document.getElementById('url').value;
+
+            // Crear un enlace
+            const enlace = document.createElement('a');
+            enlace.href = url;
+            enlace.textContent = 'Visita el enlace';
+            enlace.target = '_blank'; // Abre en nueva pestaña
+
+            // Mostrar el enlace en el div de resultados
+            const resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.innerHTML = ''; // Limpiar resultados anteriores
+            resultadoDiv.appendChild(enlace);
+        });
+    </script>
+</body>
+</html>
+[13:58, 28/9/2024] Juan Paredes: <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador y Almacenador de Enlace</title>
+</head>
+<body>
+    <form id="miFormulario">
+        <label for="url">Introduce una URL:</label>
+        <input type="url" id="url" required>
+        <button type="submit">Generar Enlace</button>
+    </form>
+
+    <div id="resultado"></div>
+
+    <script>
+        // Cargar enlaces almacenados al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            const enlacesGuardados = JSON.parse(localStorage.getItem('enlaces')) || [];
+            enlacesGuardados.forEach(url => agregarEnlace(url));
+        });
+
+        document.getElementById('miFormulario').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const url = document.getElementById('url').value;
+
+            // Guardar en localStorage
+            const enlacesGuardados = JSON.parse(localStorage.getItem('enlaces')) || [];
+            enlacesGuardados.push(url);
+            localStorage.setItem('enlaces', JSON.stringify(enlacesGuardados));
+
+            // Crear y mostrar el enlace
+            agregarEnlace(url);
+        });
+
+        function agregarEnlace(url) {
+            const enlace = document.createElement('a');
+            enlace.href = url;
+            enlace.textContent = 'Visita ' + url;
+            enlace.target = '_blank'; // Abre en nueva pestaña
+
+            const resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.appendChild(enlace);
+            resultadoDiv.appendChild(document.createElement('br')); // Salto de línea
+        }
+    </script>
+</body>
+</html>
